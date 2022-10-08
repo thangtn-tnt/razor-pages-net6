@@ -32,6 +32,7 @@
                 <div class="mb-3">
                     <label asp-for="MenuItem.Image"></label>
                     <input type="file" name="files" id="uploadBox" class="form-control" />
+                    <span asp-validation-for="MenuItem.Image" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
                     <label asp-for="MenuItem.CategoryId"></label>
@@ -88,17 +89,17 @@
                 { value: 'Email', title: 'Email' },
             ]
         });
-                                                                                                                                                        //function ValidateInput() {
-                                                                                                                                                        //    if (document.getElementById("uploadBox").value == "") {
-                                                                                                                                                        //        Swal.fire({
-                                                                                                                                                        //            icon: 'error',
-                                                                                                                                                        //            title: 'Oops...',
-                                                                                                                                                        //            text: 'Please upload an Image!',
-                                                                                                                                                        //        });
-                                                                                                                                                        //        return false;
-                                                                                                                                                        //    }
-                                                                                                                                                        //    return true;
-                                                                                                                                                        //}
+        function ValidateInput() {
+            if (document.getElementById("uploadBox").value == "") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please upload an image!!'
+                });
+                return false;
+            }
+            return true;
+        }
     </script>
     @{
         <partial name="_ValidationScriptsPartial" />
