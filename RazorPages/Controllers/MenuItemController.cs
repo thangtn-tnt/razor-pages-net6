@@ -15,7 +15,7 @@ namespace RazorPages.Controllers
 
         public IActionResult Get()
         {
-            var menuItemList = _db.MenuItem.GetAll();
+            var menuItemList = _db.MenuItem.GetAll(includeProperties: "Category,FoodType");
             return Json(new { data = menuItemList });
         }
     }

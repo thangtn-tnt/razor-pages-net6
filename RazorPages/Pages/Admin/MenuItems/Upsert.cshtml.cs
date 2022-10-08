@@ -64,6 +64,37 @@ namespace RazorPages.Pages.Admin.MenuItems
             else
             {
                 //update
+                var itemFromDb = _db.MenuItem.GetFirstOrDefault(u => u.Id == MenuItem.Id);
+                if (files.Count > 0)
+                {
+                    string fileName_new = Guid.NewGuid().ToString();
+                    var uploads = Path.Combine(webRootPath, @"images\menuItems");
+                    var extension = Path.GetExtension(files[0].FileName);
+
+
+                    //delete the old image
+                    var oldImagePath = Path.Combine(webRootPath, itemFromDb.Image.TrimStart('\\'));
+
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }
+
+                    //new upload
+
+                    using (var fileStream = new FileStream(Path.Combine(uploads, fileName_new + extension), FileMode.Create))
+                    {
+                        files[0].CopyTo(fileStream);
+                    }
+
+                    MenuItem.Image = @"\images\menuItems\" + fileName_new + extension;
+                }
+                else
+                {
+                    MenuItem.Image = itemFromDb.Image;
+                }
+                _db.MenuItem.Update(MenuItem);
+                _db.Save();
             }
             return RedirectToPage("./Index");
         }
